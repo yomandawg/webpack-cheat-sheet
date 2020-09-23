@@ -6,9 +6,6 @@ export default ({ htmlWebpackPlugin }) =>
       <title>${htmlWebpackPlugin.options.title}</title>
     </head>
     <body>
-      <div class="alert alert-primary" role="alert">
-        This is a primary alert!
-      </div>
       <div class="dropdown my-dropdown">
         <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           Dropdown button
@@ -19,5 +16,6 @@ export default ({ htmlWebpackPlugin }) =>
           <a class="dropdown-item" href="#">Something else here</a>
         </div>
       </div>
+      <i class="fas fa-spinner fa-spin"></i>
     </body>
   </html>`;
