@@ -13,7 +13,8 @@ module.exports = {
     filename:
       '[name].[contentHash].js' /**bundled JS file with md5-hashed cache busting */,
     path: path.resolve(__dirname, './dist') /**define absolute path */,
-    publicPath: '' /**base path for the assets within the application */,
+    publicPath:
+      '/static/' /**base path for the assets within the application - express.js static dir specification */,
   },
   mode:
     'production' /** sets process.env.NODE_ENV === 'development' on DefinePlugin & enables TerserPlugin */,
@@ -71,16 +72,16 @@ module.exports = {
       cleanOnceBeforeBuildPatterns: [
         '**/*' /**remove all the files and sub-directories under the output.path directory */,
         path.join(
-          process.cwd(),
-          'build/**/*'
-        ) /**removes all the files and sub-directories under specified(default=output.path) directory */,
+          process.cwd() /**current working directory */,
+          'build/**/*' /**specified directory 'build' */
+        ) /**removes all the files specified(default=output.path) directory */,
       ] /**Array of file patterns to clean before build */,
     }) /**cleans the build folders */,
     new HtmlWebpackPlugin({
       filename: 'hello.html',
       chunks: [
         'hello',
-        'vendors~hello~sample' /**need to specify the vendor bundle to include */,
+        'vendors_hello_sample' /**need to specify the vendor bundle to include */,
       ] /**specifies which bundle to include in this HTML */,
       title: 'Hello Page',
       meta: { description: 'hello page' },
@@ -90,7 +91,7 @@ module.exports = {
       filename: 'sample.html',
       chunks: [
         'sample',
-        'vendors~hello~sample' /**need to specify the vendor bundle to include */,
+        'vendors_hello_sample' /**need to specify the vendor bundle to include */,
       ] /**specifies which bundle to include in this HTML */,
       title: 'Sample Page',
       description: 'sample page',
