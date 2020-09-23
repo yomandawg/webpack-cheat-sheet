@@ -1,19 +1,12 @@
-// import _ from 'lodash';
-// import React from 'react';
+import _ from 'lodash';
+
+import './hello.scss';
 
 import HelloWorldButton from './components/hello-world-button/hello-world-button';
 import Heading from './components/heading/heading';
 
 const heading = new Heading();
-heading.render('hello');
+heading.render(_.upperFirst('hello'));
 
 const helloWorldButton = new HelloWorldButton();
 helloWorldButton.render();
-
-if (process.env.NODE_ENV === 'production') {
-  console.log('Production mode');
-} else {
-  console.log('Development mode');
-}
-
-// helloWorldButton.methodThatDoesNotExist();

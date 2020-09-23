@@ -3,6 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   entry: {
+    index: './src/index.js',
     hello: './src/hello.js',
     sample: './src/sample.js',
   } /**multiple entrypoints */,
@@ -20,7 +21,7 @@ module.exports = {
       __dirname,
       'dist'
     ) /**serve content from...; the actual files are served from the memory */,
-    index: 'hello.html' /**specifies the index entry of the server */,
+    index: 'index.html' /**specifies the index entry of the server */,
     port: 9000,
   },
   module: {
@@ -59,9 +60,27 @@ module.exports = {
           },
         },
       },
+      {
+        test: /\.(woff2|woff|ttf)$/,
+        use: {
+          loader:
+            'file-loader' /**resolves import/require() on a file into a url -> emits the file into the output directory */,
+          options: {
+            name: '[name].[ext]',
+            outputPath: 'fonts/',
+          },
+        },
+      },
     ],
   },
   plugins: [
+    new HtmlWebpackPlugin({
+      filename: 'index.html',
+      chunks: ['index'] /**specifies which bundle to include in this HTML */,
+      title: 'Index Page',
+      meta: { description: 'index page' },
+      template: 'src/index-template.js',
+    }) /**dynamically create HTML files */,
     new HtmlWebpackPlugin({
       filename: 'hello.html',
       chunks: ['hello'] /**specifies which bundle to include in this HTML */,

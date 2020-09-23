@@ -6,6 +6,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   entry: {
+    index: './src/index.js',
     hello: './src/hello.js',
     sample: './src/sample.js',
   } /**multiple entrypoints */,
@@ -21,7 +22,7 @@ module.exports = {
   optimization: {
     splitChunks: {
       chunks: 'all',
-      minSize: 10000 /**minimum module size to be split */,
+      minSize: 3000 /**minimum module size to be split */,
       automaticNameDelimiter: '_' /**set the delimiter (default: '~') */,
     } /**common chunks strategies for imported modules - emits into the vendor file */,
   },
@@ -61,6 +62,17 @@ module.exports = {
           },
         },
       },
+      {
+        test: /\.(woff2|woff|ttf)$/,
+        use: {
+          loader:
+            'file-loader' /**resolves import/require() on a file into a url -> emits the file into the output directory */,
+          options: {
+            name: '[name].[ext]',
+            outputPath: 'fonts/',
+          },
+        },
+      },
     ],
   },
   plugins: [
@@ -78,10 +90,20 @@ module.exports = {
       ] /**Array of file patterns to clean before build */,
     }) /**cleans the build folders */,
     new HtmlWebpackPlugin({
+      filename: 'index.html',
+      chunks: [
+        'index',
+        'vendors_index' /**specifies the vendor bundle to include */,
+      ] /**specifies which bundle to include in this HTML */,
+      title: 'Index Page',
+      meta: { description: 'index page' },
+      template: 'src/index-template.js',
+    }) /**dynamically create HTML files */,
+    new HtmlWebpackPlugin({
       filename: 'hello.html',
       chunks: [
         'hello',
-        'vendors_hello_sample' /**need to specify the vendor bundle to include */,
+        'vendors_hello_index' /**specifies the vendor bundle to include */,
       ] /**specifies which bundle to include in this HTML */,
       title: 'Hello Page',
       meta: { description: 'hello page' },
@@ -89,10 +111,7 @@ module.exports = {
     }) /**dynamically create HTML files */,
     new HtmlWebpackPlugin({
       filename: 'sample.html',
-      chunks: [
-        'sample',
-        'vendors_hello_sample' /**need to specify the vendor bundle to include */,
-      ] /**specifies which bundle to include in this HTML */,
+      chunks: ['sample'] /**specifies which bundle to include in this HTML */,
       title: 'Sample Page',
       description: 'sample page',
       template: 'src/sample-template.js',
