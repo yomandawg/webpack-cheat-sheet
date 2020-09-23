@@ -9,6 +9,4 @@ class Heading {
   }
 }
 
-const yo = 132875328;
-
 export default Heading;
